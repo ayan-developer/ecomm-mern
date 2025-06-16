@@ -1,6 +1,9 @@
 import React from 'react';
 import ProductCard from '../components/ProductCard';
 import HeroBanner from '../components/HeroBanner';
+import { Link } from 'react-router-dom';
+import dummyProducts from '../data/dummyProducts';
+import CategoryGallery from '../components/CategoryGallery';
 
 const HomePage = () => {
   // 10 dummy products with working image links
@@ -80,14 +83,20 @@ const HomePage = () => {
   return (
     <>
       <HeroBanner/>
+      <div>
+        <CategoryGallery/>
+      </div>
     <div className="container mx-auto p-4">
         
       <h1 className="text-2xl md:text-4xl font-bold mb-6">Our Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
+        {dummyProducts.map((product) => (
           <ProductCard key={product._id} product={product} />
+          // <Link to={`/category/${product.category}`}/>
         ))}
       </div>
+      
+
     </div>
     </>
   );
