@@ -5,7 +5,6 @@ const ProductForm = ({ defaultValues = {}, onSubmit }) => {
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -13,38 +12,21 @@ const ProductForm = ({ defaultValues = {}, onSubmit }) => {
   });
 
   const [preview, setPreview] = useState(null);
-
   const imageFile = watch('image');
 
-  // Set preview when image file changes
   useEffect(() => {
     if (imageFile && imageFile[0]) {
       const file = imageFile[0];
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
+      reader.onloadend = () => setPreview(reader.result);
       reader.readAsDataURL(file);
     } else {
       setPreview(null);
     }
   }, [imageFile]);
 
-  const handleFormSubmit = (data) => {
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('category', data.category);
-    formData.append('price', data.price);
-    formData.append('description', data.description);
-    if (data.image && data.image[0]) {
-      formData.append('image', data.image[0]);
-    }
-
-    onSubmit(formData); // this will be handled in the parent page
-  };
-
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4" encType="multipart/form-data">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" encType="multipart/form-data">
       <div>
         <label className="block font-medium mb-1">Name</label>
         <input
@@ -74,9 +56,7 @@ const ProductForm = ({ defaultValues = {}, onSubmit }) => {
           className="w-full border px-3 py-2 rounded"
         />
         {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
-        {preview && (
-          <img src={preview} alt="Preview" className="w-32 h-32 mt-2 object-cover rounded" />
-        )}
+        {preview && <img src={preview} alt="Preview" className="w-32 h-32 mt-2 object-cover rounded" />}
         {!preview && defaultValues.image && (
           <img src={defaultValues.image} alt="Current" className="w-32 h-32 mt-2 object-cover rounded" />
         )}
