@@ -1,4 +1,5 @@
 const express = require('express');
+const upload = require('../middleware/upload');
 const {
     createProduct,
     getProducts,
@@ -7,12 +8,12 @@ const {
     deleteProduct,
 } = require('../controllers/productController');
 
-const router = express.router();
+const router = express.Router();
 
-router.post('/', createProduct);
-router.get('/', getProducts);
-router.get('/:id', getProductById);
-router.put('/:id', updateProduct);
+router.post('/create', upload.single('image'), createProduct);
+router.get('/all-products', getProducts);
+router.get('/get-product-by-Id/:id', getProductById);
+router.put('/update/:id', upload.single('image'), updateProduct);
 router.delete('/:id', deleteProduct);
 
 module.exports = router;

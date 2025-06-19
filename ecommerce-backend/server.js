@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const fs = require('fs');
 
 
 // Config
@@ -11,8 +12,18 @@ require('dotenv').config();
 
 const app = express();
 
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
+// ✅ Serve uploads folder publicly
+app.use('/uploads', express.static('uploads'));
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(express.json());
 
 // Routes (empty for now)

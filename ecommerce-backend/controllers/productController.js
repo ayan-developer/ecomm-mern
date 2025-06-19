@@ -3,7 +3,17 @@ const Product = require('../models/Product');
 // Create Product
 exports.createProduct = async (req, res) => {
   try {
-    const product = new Product(req.body);
+    const { name, category, price, description } = req.body;
+    const image = req.file ? req.file.filename : null; // multer sets this
+
+    const product = new Product({
+      name,
+      category,
+      price,
+      description,
+      image, // store filename (or full path if you prefer)
+    });
+
     const saved = await product.save();
     res.status(201).json(saved);
   } catch (error) {
@@ -35,9 +45,13 @@ exports.getProductById = async (req, res) => {
 // Update Product
 exports.updateProduct = async (req, res) => {
   try {
+    console.log(req.body);
+    console.log(req.params);
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
+
+    console.log(product);
     if (product) res.json(product);
     else res.status(404).json({ message: 'Product not found' });
   } catch (error) {

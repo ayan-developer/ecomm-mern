@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createProduct } from '../../services/productService';
+import { createProduct } from '../services/productService';
 import ProductForm from './ProductForm'; // Adjust path if needed
 
 const AddProductPage = () => {
@@ -9,13 +9,11 @@ const AddProductPage = () => {
  const handleAddProduct = async (data) => {
     try {
       const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === 'image') {
-          formData.append(key, value[0]); // append file
-        } else {
-          formData.append(key, value);
-        }
-      });
+      formData.append('name', data.name);
+      formData.append('category', data.category);
+      formData.append('price', data.price);
+      formData.append('description', data.description);
+      formData.append('image', data.image[0]);
 
       await createProduct(formData);
       alert('Product added successfully!');

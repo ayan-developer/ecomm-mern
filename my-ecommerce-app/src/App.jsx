@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CategoryPage from './pages/CategoryPage';
 import AdminDashboard from './pages/AdminDashboard';
-import ProductForm from './pages/ProductForm';
+import AddProductPage from './pages/AddProductPage';
 import EditProductPage from './pages/EditProductPage';
 // import Products from './pages/Products';
 // import Contact from './pages/Contact';
@@ -25,7 +25,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/create" element={<ProductForm />} />
+            <Route path="/admin/create" element={<AddProductPage />} />
             <Route path="/admin/edit/:id" element={<EditProductPage />} />
           </Routes>
         </main>

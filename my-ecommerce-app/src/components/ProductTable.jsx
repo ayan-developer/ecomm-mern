@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import dummyProducts from '../data/dummyProducts';
+// import dummyProducts from '../data/dummyProducts';
+import { getAllProducts } from '../services/productService';
+import { IMAGE_BASE_URL } from '../constants';
 
 const ProductTable = () => {
   const [products, setProducts] = useState([]);
@@ -10,7 +12,7 @@ const ProductTable = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get('/api/admin/products');
+        const { data } = await getAllProducts();
         setProducts(data);
         setLoading(false);
       } catch (error) {
@@ -46,10 +48,10 @@ const ProductTable = () => {
         </tr>
       </thead>
       <tbody>
-        {dummyProducts.map((product) => (
+        {products.map((product) => (
           <tr key={product._id} className="text-center">
             <td className="border px-4 py-2">
-              <img src={product.image} alt={product.name} className="h-16 mx-auto" />
+              <img  src={`${IMAGE_BASE_URL}${product.image}`} className="h-16 mx-auto" />
             </td>
             <td className="border px-4 py-2">{product.name}</td>
             <td className="border px-4 py-2">{product.category}</td>
