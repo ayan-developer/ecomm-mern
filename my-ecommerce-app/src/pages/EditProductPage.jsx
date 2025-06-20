@@ -20,7 +20,6 @@ const EditProductPage = () => {
   useEffect(() => {
     getProductById(id)
       .then((res) => {
-        console.log(res.data);
         setInitialData(res.data);
         reset(res.data); // prefill form
       })

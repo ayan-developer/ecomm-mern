@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { userLogin } from '../services/userServie';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -8,7 +8,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      const { data } = await userLogin({email, password});
       console.log('Login Success:', data);
       alert(`Welcome, ${data.name}!`);
       // You might want to save the token locally here.

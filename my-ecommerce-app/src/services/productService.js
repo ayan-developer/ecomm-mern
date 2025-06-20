@@ -20,7 +20,7 @@ export const updateProduct = (id, formData) => {
 };
 
 export const deleteProduct = (id) => {
-  return axios.delete(`/products/${id}`);
+  return axios.delete(`/products/delete/${id}`);
 };
 
 export const getAllProducts = () => {

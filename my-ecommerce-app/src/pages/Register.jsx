@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { userRegister } from '../services/userServie';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -9,7 +10,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:5000/api/users/register', { name, email, password });
+      const { data } = await userRegister({ name, email, password });
       console.log('Registration Success:', data);
       alert(`Welcome, ${data.name}!`);
       // You might want to save the token locally here.

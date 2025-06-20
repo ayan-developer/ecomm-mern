@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // import dummyProducts from '../data/dummyProducts';
-import { getAllProducts } from '../services/productService';
+import { getAllProducts, deleteProduct } from '../services/productService';
 import { IMAGE_BASE_URL } from '../constants';
+import DeleteButton from './DeleteButton';
 
 const ProductTable = () => {
   const [products, setProducts] = useState([]);
@@ -24,11 +25,12 @@ const ProductTable = () => {
     fetchProducts();
   }, []);
 
-  const deleteProduct = async (id) => {
+  const handleDeleteProduct = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     try {
-      await axios.delete(`/api/admin/products/${id}`);
+      deleteProduct(id);
       setProducts(products.filter((product) => product._id !== id));
+      navigate('/admin');
     } catch (error) {
       console.error('Failed to delete product:', error);
     }
@@ -60,12 +62,7 @@ const ProductTable = () => {
               <Link to={`/admin/edit/${product._id}`} className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded">
                 Edit
               </Link>
-              <button
-                onClick={() => deleteProduct(product._id)}
-                className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
-              >
-                Delete
-              </button>
+             <DeleteButton onDelete={() => handleDeleteProduct(product._id)} />
             </td>
           </tr>
         ))}
