@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { userLogin } from '../services/userServie';
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -9,7 +11,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await userLogin({email, password});
-      console.log('Login Success:', data);
+      localStorage.setItem('token', data.token);
+      setIsLoggedIn(true);
+      navigate('/');
       alert(`Welcome, ${data.name}!`);
       // You might want to save the token locally here.
     } catch (error) {

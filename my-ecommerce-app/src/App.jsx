@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 // import Footer from './components/Footer';
@@ -13,16 +13,17 @@ import EditProductPage from './pages/EditProductPage';
 // import Contact from './pages/Contact';
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
   return (
     <>
     <Router>
       <div className="min-h-screen flex flex-col">
-        <Navbar />
+        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <main className="flex-grow container mx-auto px-4 py-8">
             <Routes>
             <Route path="/" element={<HomePage />} />    {/* 👈 Add this */}
             <Route path="/category/:category" element={<CategoryPage />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/create" element={<AddProductPage />} />
